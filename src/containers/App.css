@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+img.available {
+  opacity: 0.5 !important;
+}
+
+.shop-item-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: flex-start;
+}
