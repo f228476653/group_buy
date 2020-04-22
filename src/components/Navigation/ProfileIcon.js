@@ -1,17 +1,31 @@
 import React ,{useState, useEffect }from 'react';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import Button from 'react-bootstrap/Button'
 import Dropdown from 'react-bootstrap/Dropdown'
 
-const ProfileIcon = () => {
-    const [dropDownOpen, setDropDownOpen] = useState(false);
+const ProfileIcon = (props) => {
+    const CustomToggle = React.forwardRef(({ children,onClick }, ref) => (
+        <Button ref={ref} variant="link" style={{margin:'0', padding:'0'}}
+            onClick={(e) => {
+                e.preventDefault();
+                onClick(e);
+            }}>
+          {children}
+        </Button>
+      ));
     return (
-        <div class="tc pa4">
-            <img src="http://tachyons.io/img/logo.jpg" class="br-100 pa1 ba b--black-10 h3 w3" alt="avatar"/>
-            <DropdownButton id="dropdown-basic-button" title="">
-            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-            </DropdownButton>
+        <div className="tc pa0">
+          <Dropdown alignRight>
+            <Dropdown.Toggle className="bg-dark-gray" as={CustomToggle} >
+                <img src="http://tachyons.io/img/logo.jpg" className="br-100 ba h3 w3 dib pa0 mr0" alt="avatar"/>
+            </Dropdown.Toggle>
+        
+            <Dropdown.Menu className="b--transparent shadow-5">
+                <Dropdown.Item eventKey="1">My orders</Dropdown.Item>
+                <Dropdown.Item eventKey="2" onClick={() => props.setIsProfileOpen(props.isProfileOpen)}>View Profile</Dropdown.Item>
+                <Dropdown.Item eventKey="3" href="/login">Sign Out</Dropdown.Item>
+            </Dropdown.Menu>
+            </Dropdown>
         </div>
 
     );
