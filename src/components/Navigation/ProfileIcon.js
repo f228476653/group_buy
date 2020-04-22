@@ -3,7 +3,7 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import Button from 'react-bootstrap/Button'
 import Dropdown from 'react-bootstrap/Dropdown'
 
-const ProfileIcon = (props) => {
+const ProfileIcon = ({toggleProfile}) => {
     const CustomToggle = React.forwardRef(({ children,onClick }, ref) => (
         <Button ref={ref} variant="link" style={{margin:'0', padding:'0'}}
             onClick={(e) => {
@@ -22,7 +22,7 @@ const ProfileIcon = (props) => {
         
             <Dropdown.Menu className="b--transparent shadow-5">
                 <Dropdown.Item eventKey="1">My orders</Dropdown.Item>
-                <Dropdown.Item eventKey="2" onClick={() => props.setIsProfileOpen(props.isProfileOpen)}>View Profile</Dropdown.Item>
+                <Dropdown.Item eventKey="2" onClick={() => toggleProfile()}>View Profile</Dropdown.Item>
                 <Dropdown.Item eventKey="3" href="/login">Sign Out</Dropdown.Item>
             </Dropdown.Menu>
             </Dropdown>

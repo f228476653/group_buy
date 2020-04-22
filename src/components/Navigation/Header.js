@@ -3,9 +3,7 @@ import SearchBox from 'components/Operation/SearchBox';
 import ProfileIcon from 'components/Navigation/ProfileIcon';
 
 const Header = (props) => {
-    console.log(props)
-    if (props.isSignIn) {
-        console.log(props);
+    if (!props.isSignIn) {
         return (
             <nav className="flex justify-between bb b--white-10 bg-dark-gray">
                 <a className="link black-70 hover-white no-underline flex items-center pa3" href={'/'} />
@@ -22,7 +20,7 @@ const Header = (props) => {
                 <a className="link black-70 hover-white no-underline flex items-center pa3" href={'/'} />
                 <div className="flex-grow pa3 flex items-center">
                     <a id="register" className="f6 link dib white dim mr3 mr4-ns hover-blue" href={'/'}>About</a>
-                    <ProfileIcon isProfileOpen={props}/>
+                    <ProfileIcon toggleProfile={props.toggleProfile} />
                 </div>
             </nav>
         );
