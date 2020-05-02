@@ -11,26 +11,23 @@ const Register =() => {
   const history = useHistory();
 
   const onSubmitSignIn = () => {
-    console.log(history);
-    history.goBack();
-    // fetch('http://localhost:3000/register', {
-    //   method: 'post',
-    //   headers: {'Content-Type': 'application/json'},
-    //   body: JSON.stringify({
-    //     email: email,
-    //     password: password,
-    //     comfirmPassword: comfirmPassword,
-    //     name: userName,
-    //     phoneNumber: phoneNumber
-    //   })
-    // })
-    //   .then(response => response.json())
-    //   .then(user => {
-    //     if (user.id) {
-    //       this.props.loadUser(user)
-    //       this.props.onRouteChange('home');
-    //     }
-    //   })
+    fetch('http://localhost:3000/register', {
+      method: 'post',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        email: email,
+        password: password,
+        name: userName,
+        phoneNumber: phoneNumber
+      })
+    })
+      .then(response => response.json())
+      .then(user => {
+        console.log(user);
+        if (user.id) {
+           history.push("/",{user:user})
+        }
+      })
   }
 
     return (
@@ -42,7 +39,7 @@ const Register =() => {
               <div className="mt3">
                 <label className="db fw6 lh-copy f6" htmlFor="name">Name</label>
                 <input
-                  className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                  className="pa2 input-reset ba bg-transparent w-100"
                   type="text"
                   name="name"
                   id="name"
@@ -52,7 +49,7 @@ const Register =() => {
               <div className="mt3">
                 <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
                 <input
-                  className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                  className="pa2 input-reset ba bg-transparent w-100"
                   type="email"
                   name="email-address"
                   id="email-address"
@@ -62,7 +59,7 @@ const Register =() => {
               <div className="mt3">
                 <label className="db fw6 lh-copy f6" htmlFor="email-address">Phone Number</label>
                 <input
-                  className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                  className="pa2 input-reset ba bg-transparent w-100"
                   type="email"
                   name="email-address"
                   id="email-address"
@@ -72,7 +69,7 @@ const Register =() => {
               <div className="mv3">
                 <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
                 <input
-                  className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                  className="b pa2 input-reset ba bg-transparent w-100"
                   type="password"
                   name="password"
                   id="password"
@@ -82,7 +79,7 @@ const Register =() => {
               <div className="mv3">
                 <label className="db fw6 lh-copy f6" htmlFor="password">Comfirm Password</label>
                 <input
-                  className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                  className="b pa2 input-reset ba bg-transparent w-100"
                   type="password"
                   name="password"
                   id="password"
