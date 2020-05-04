@@ -1,4 +1,4 @@
-import React,{useState, useLayoutEffect, useCallback }  from 'react';
+import React,{useState, useEffect, useCallback }  from 'react';
 import Header from 'components/Navigation/Header';
 import Scroll from 'components/Pages/Scroll';
 import ErrorBoundry from 'components/Pages/ErrorBoundry';
@@ -9,11 +9,21 @@ import { useLocation } from "react-router-dom";
 
 
 function App() {
-  const [user, setUser] = useState({});
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isSignIn, setSignIn] = useState(false);
   const location = useLocation();
-  useLayoutEffect(() => {
+  
+  const [user, setUser] = useState(() =>{
+    if(location && location.state && location.state.user){
+      console.log(location);
+      return location.state.user;
+    }
+    return {}
+  });
+
+
+
+  useEffect(() => {
     if(location.state){
       let user= location.state.user;
       setUser({user: {
@@ -24,7 +34,6 @@ function App() {
         joined: user.joined
       }})
       console.log('2323');
-      setSignIn(true);
     }
   },[location]);
 
@@ -32,20 +41,6 @@ function App() {
     setIsProfileOpen(!isProfileOpen);
     console.log(isProfileOpen);
   }, [isProfileOpen])
-
-  // const loadUser = () => {
-  //   const user = location.state.user;
-  //   if(user.id){
-  //     setUser({user: {
-  //       id: user.id,
-  //       name: user.name,
-  //       email: user.email,
-  //       phoneNumber: user.phonenumber,
-  //       joined: user.joined
-  //     }})
-  //     setSignIn(true);
-  //   }
-  // }
 
   return (
     <div className="App">

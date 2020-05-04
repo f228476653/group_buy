@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button'
 import { useHistory } from "react-router-dom";
 
 
-const Login = () => {
+const Login = (props) => {
     const [signinEmail, setSigninEmail] = useState('');
     const [signinPassword, setSigninPassword] = useState('');
     const history = useHistory();

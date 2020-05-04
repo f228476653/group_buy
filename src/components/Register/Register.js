@@ -23,7 +23,7 @@ const Register =() => {
     })
       .then(response => response.json())
       .then(user => {
-        console.log(user);
+        console.log('777');
         if (user.id) {
            history.push("/",{user:user})
         }
