@@ -1,62 +1,70 @@
-import React, {useState}  from 'react';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button'
-import { useHistory } from "react-router-dom";
+import React, {useState, useEffect}  from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { userActions } from '../../actions/user.actions';
+import { Link } from 'react-router-dom';
 
 
-const Login = (props) => {
-    const [signinEmail, setSigninEmail] = useState('');
-    const [signinPassword, setSigninPassword] = useState('');
-    const history = useHistory();
-    const onSubmitSignIn = (event) => {
-        event.preventDefault();
-        fetch('http://localhost:3000/signin', {
-            method: 'post',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-            email: signinEmail,
-            password: signinPassword
-            })
-        }).then(response => response.json())
-            .then(user => {
-            if (user.id) {
-                history.push("/",{user:user})
-                }
-            })
+function Login() {
+    const [inputs, setInputs] = useState({
+        email: '',
+        password: ''
+    });
+    const [submitted, setSubmitted] = useState(false);
+    //     基本變數指定敘述
+    // const foo = ['one', 'two', 'three'];
+    // const [red, yellow, green] = foo;
+    //const o = {p: 42, q: true};
+    //const {p, q} = o;
+    //console.log(p); // 42
+    //console.log(q); // true
+    const { email, password } = inputs;
+    const loggingIn = useSelector(state => state.authentication.loggingIn);
+    const dispatch = useDispatch();
+
+    // reset login status
+    useEffect(() => { 
+        dispatch(userActions.logout()); 
+    }, [])
+
+    function handleChange(e) {
+        const { name, value } = e.target;
+        setInputs(inputs => ({ ...inputs, [name]: value }));
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        setSubmitted(true);
+        if (inputs.email && inputs.password) {
+            dispatch(userActions.login(email, password));
         }
-
+    }
     return (
-        <div className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
-            <div className="pa4 black-80">
-                <div className="measure">
-                    <div id="sign_up" className="ba b--transparent ph0 mh0">
-                        <label className="f1 fw6 ph0 mh0">Login</label>
-                        <div className="mt3">
-                            <Form>
-                            <Form.Group controlId="formBasicEmail">
-                                <Form.Label className="db fw6 lh-copy f6">Email address</Form.Label>
-                                <Form.Control type="email" placeholder="Enter email" onChange={e => setSigninEmail(e.target.value)}/>
-                                <Form.Text className="text-muted">
-                                We'll never share your email with anyone else.
-                                </Form.Text>
-                            </Form.Group>
-
-                            <Form.Group controlId="formBasicPassword">
-                                <Form.Label>Password</Form.Label>
-                                <Form.Control type="password" placeholder="Password" onChange={e => setSigninPassword(e.target.value)}/>
-                            </Form.Group>
-                            <Form.Group controlId="formBasicCheckbox">
-                                <Form.Check type="checkbox" label="Check me out" />
-                            </Form.Group>
-                            <Button variant="primary" type="submit" onClick={(e) =>onSubmitSignIn(e)}>
-                                Submit
-                            </Button>
-                            </Form>
-                            </div>
-                        </div>
-                    </div>
+        <div className="col-lg-8 offset-lg-2">
+            <h2>Login</h2>
+            <form name="form" onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" value={email} onChange={handleChange} className={'form-control' + (submitted && !email ? ' is-invalid' : '')} />
+                    {submitted && !email &&
+                        <div className="invalid-feedback">Email is required</div>
+                    }
                 </div>
-            </div>
+                <div className="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" value={password} onChange={handleChange} className={'form-control' + (submitted && !password ? ' is-invalid' : '')} />
+                    {submitted && !password &&
+                        <div className="invalid-feedback">Password is required</div>
+                    }
+                </div>
+                <div className="form-group">
+                    <button className="btn btn-primary">
+                        {loggingIn && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                        Login
+                    </button>
+                    <Link to="/register" className="btn btn-link">Register</Link>
+                </div>
+            </form>
+        </div>
     );
 }
 

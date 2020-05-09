@@ -1,33 +1,46 @@
 import React from 'react';
 import { useState } from 'react';
-import { useHistory } from "react-router-dom";
+import { userActions } from  '../../actions/user.actions'
+import { alertActions } from  '../../actions/alert.actions'
+import { useDispatch, useSelector } from 'react-redux';
 
 const Register =() => {
-  const [email, setEmail] = useState('');
-  const [userName, setUserName] = useState('');
-  const [password, setPassword ] = useState('');
-  const [comfirmPassword, setComfirmPassword] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const history = useHistory();
+  const [inputs, setInputs] = useState({
+    email:'',
+    first_name:'',
+    last_name:'',
+    password:'',
+    phoneNumber:''
+  });
+  const [sumbit, setSubmit] =  useState()
+  const [comfirmPassword, setcomfirmPassword]=useState({})
+  const dispatch = useDispatch();
+/*   基本指派式
+// const o = {p: 42, q: true};
+// const {p, q} = o;
 
-  const onSubmitSignIn = () => {
-    fetch('http://localhost:3000/register', {
-      method: 'post',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        email: email,
-        password: password,
-        name: userName,
-        phoneNumber: phoneNumber
-      })
-    })
-      .then(response => response.json())
-      .then(user => {
-        console.log('777');
-        if (user.id) {
-           history.push("/",{user:user})
-        }
-      })
+// console.log(p); // 42
+console.log(q); // true 
+*/ 
+
+  function onRegister(e) {
+    e.preventDefault();
+    setSubmit(true);
+    if (inputs.email && inputs.first_name && inputs.last_name && inputs.password && inputs.phoneNumber){
+      if (comfirmPassword !==inputs.password){
+        dispatch(alertActions.error('Please enter same password twice'))
+      }else {
+        dispatch(userActions.register(inputs))
+      }
+    }else{
+      dispatch(alertActions.error('Please fill in all fields'))
+    }
+  }
+
+  function onInputChange(event){
+    const {name, value} = event.target;
+    setInputs(inputs => ({ ...inputs, [name]: value }));
+    console.log(inputs)
   }
 
     return (
@@ -37,13 +50,25 @@ const Register =() => {
             <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
               <legend className="f1 fw6 ph0 mh0">Register</legend>
               <div className="mt3">
-                <label className="db fw6 lh-copy f6" htmlFor="name">Name</label>
+                <label className="db fw6 lh-copy f6" htmlFor="name">First Name</label>
                 <input
                   className="pa2 input-reset ba bg-transparent w-100"
                   type="text"
-                  name="name"
-                  id="name"
-                  onChange={e => setUserName(e.target.value)}
+                  name="first_name"
+                  id="first_name"
+                  value={inputs.first_name}
+                  onChange={e =>onInputChange(e)} required
+                />
+              </div>
+              <div className="mt3">
+                <label className="db fw6 lh-copy f6" htmlFor="name">Last Name</label>
+                <input
+                  className="pa2 input-reset ba bg-transparent w-100"
+                  type="text"
+                  name="last_name"
+                  id="last_name"
+                  value={inputs.last_name}
+                  onChange={e =>onInputChange(e)} required
                 />
               </div>
               <div className="mt3">
@@ -51,19 +76,21 @@ const Register =() => {
                 <input
                   className="pa2 input-reset ba bg-transparent w-100"
                   type="email"
-                  name="email-address"
-                  id="email-address"
-                  onChange={e => setEmail(e.target.value)}
+                  name="email"
+                  id="email"
+                  value={inputs.email}
+                  onChange={e =>onInputChange(e)} required
                 />
               </div>
               <div className="mt3">
-                <label className="db fw6 lh-copy f6" htmlFor="email-address">Phone Number</label>
+                <label className="db fw6 lh-copy f6" htmlFor="phone">Phone Number</label>
                 <input
                   className="pa2 input-reset ba bg-transparent w-100"
-                  type="email"
-                  name="email-address"
-                  id="email-address"
-                  onChange={e => setPhoneNumber(e.target.value)}
+                  type="phone"
+                  name="phoneNumber"
+                  id="phoneNumber"
+                  value={inputs.phoneNumber}
+                  onChange={e =>onInputChange(e)} required
                 />
               </div>
               <div className="mv3">
@@ -73,7 +100,8 @@ const Register =() => {
                   type="password"
                   name="password"
                   id="password"
-                  onChange={e => setPassword(e.target.value)}
+                  value={inputs.password}
+                  onChange={e =>onInputChange(e)} required
                 />
               </div>
               <div className="mv3">
@@ -81,15 +109,15 @@ const Register =() => {
                 <input
                   className="b pa2 input-reset ba bg-transparent w-100"
                   type="password"
-                  name="password"
-                  id="password"
-                  onChange={e => setComfirmPassword(e.target.value)}
+                  name="comfirmPassword"
+                  id="comfirmPassword"
+                  onChange={e => setcomfirmPassword(e.target.value)} required
                 />
               </div>
             </fieldset>
             <div className="">
               <input
-                onClick={onSubmitSignIn}
+                onClick={onRegister}
                 className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
                 type="submit"
                 value="Register"

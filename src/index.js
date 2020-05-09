@@ -1,14 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-//import App from 'containers/App'
-import Router from 'Router';
+import { render } from 'react-dom';
+import App from 'containers/App'
 import Modal from 'components/Modal/Modal';
+import { store } from 'utils/store';
 //import * as serviceWorker from 'serviceWorker';
+import { Provider } from 'react-redux';
 import 'tachyons';
 
 //const store = createStore(rootReducer)
-ReactDOM.render(
-    <Router />,document.getElementById('root'));
+
+render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.getElementById('root')
+);
 
 ReactDOM.render(
     <Modal />,document.getElementById('modal-root'));
