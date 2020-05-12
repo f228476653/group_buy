@@ -8,8 +8,15 @@ function login(email, password) {
         dispatch(request({ email }));
         userService.login(email,password)
             .then(
-                user => {
-                    dispatch(success(user));
+                data => {
+                    if(data.userId && data.success === 'true'){
+                        userService.getUserById(data.id)
+                        .then(
+                            user =>{ 
+                                saveAuthTokenInSession(data.token)
+                                dispatch(success(user))
+                            })
+                    }
                     history.push('/');
             },
             //error怎樣？
@@ -23,6 +30,29 @@ function login(email, password) {
     function request(user) { return { type: userConstants.LOGIN_REQUEST, user } }
     function success(user) { return { type: userConstants.LOGIN_SUCCESS, user } }
     function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
+    function saveAuthTokenInSession(token) {
+        window.sessionStorage.setItem('token',token)
+    }
+}
+
+function authenticationLogin(token){
+    return dispatch =>{
+        dispatch(request(token))
+        userService.authLogin(token)
+            .then(data => {
+                if(data.userId && data.success === 'true'){
+                    userService.getUserById(data.id)
+                    .then( user =>{ dispatch(success(user))})
+                }
+            },error => {
+                dispatch(failure(error.toString()))
+                dispatch(alertActions.error(error.toString()));
+            })
+    }
+    
+    function request(token) { return { type: userConstants.AUTH_LOGIN_REQUEST, token } }
+    function success(token) { return { type: userConstants.AUTH_LOGIN_SUCCESS, token } }
+    function failure(error) { return { type: userConstants.AUTH_LOGIN_FAILURE, error } }
 }
 
 function logout(){
@@ -54,5 +84,6 @@ function register(user){
 export const userActions = {
     login,
     logout,
-    register
+    register,
+    authenticationLogin
 }

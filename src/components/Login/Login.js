@@ -23,7 +23,10 @@ function Login() {
 
     // reset login status
     useEffect(() => { 
-        dispatch(userActions.logout()); 
+        const token = window.sessionStorage.getItem('token');
+        if(token){
+            //dispatch(userActions.authenticationLogin(token)); 
+        }
     }, [])
 
     function handleChange(e) {

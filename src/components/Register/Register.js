@@ -40,7 +40,6 @@ console.log(q); // true
   function onInputChange(event){
     const {name, value} = event.target;
     setInputs(inputs => ({ ...inputs, [name]: value }));
-    console.log(inputs)
   }
 
     return (
