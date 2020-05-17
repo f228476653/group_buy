@@ -1,5 +1,5 @@
 import { userConstants } from '../constants/user.constants'
-import { getQueryParser } from 'next/dist/next-server/server/api-utils';
+
 // state 它接收先前的 state 和一個 action，然後回傳下一個 state
 let user = JSON.parse(localStorage.getItem('user'));
 const initialState = user ? { loggedIn: true, user } : {};

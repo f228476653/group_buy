@@ -9,15 +9,22 @@ function login(email, password) {
         userService.login(email,password)
             .then(
                 data => {
-                    if(data.userId && data.success === 'true'){
-                        userService.getUserById(data.id)
+                    if(data.userId && data.success === true){
+                        userService.getUserById(data)
                         .then(
                             user =>{ 
                                 saveAuthTokenInSession(data.token)
                                 dispatch(success(user))
+                                history.push('/');
+                            },
+                            err =>{
+                                dispatch(failure(err));
+                                dispatch(alertActions.error(err));
                             })
+                    }else{
+                        dispatch(failure(data));
+                        dispatch(alertActions.error(data));
                     }
-                    history.push('/');
             },
             //error怎樣？
                 error => {
@@ -41,7 +48,7 @@ function authenticationLogin(token){
         userService.authLogin(token)
             .then(data => {
                 if(data.userId && data.success === 'true'){
-                    userService.getUserById(data.id)
+                    userService.getUserById(data)
                     .then( user =>{ dispatch(success(user))})
                 }
             },error => {

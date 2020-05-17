@@ -1,4 +1,4 @@
-import React, {useState, useEffect}  from 'react';
+import React, {useState}  from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '../../actions/user.actions';
 import { Link } from 'react-router-dom';
@@ -20,14 +20,6 @@ function Login() {
     const { email, password } = inputs;
     const loggingIn = useSelector(state => state.authentication.loggingIn);
     const dispatch = useDispatch();
-
-    // reset login status
-    useEffect(() => { 
-        const token = window.sessionStorage.getItem('token');
-        if(token){
-            //dispatch(userActions.authenticationLogin(token)); 
-        }
-    }, [])
 
     function handleChange(e) {
         const { name, value } = e.target;

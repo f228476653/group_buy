@@ -46,12 +46,12 @@ function Profile() {
                         />
                     </div>
                     <div className="mt3">
-                        <label className="db fw6 lh-copy f6" htmlFor="email-address">Phone Number</label>
+                        <label className="db fw6 lh-copy f6" htmlFor="phone">Phone Number</label>
                         <input
                         className="pa2 input-reset ba bg-transparent w-100"
-                        type="email"
-                        name="email-address"
-                        id="email-address"
+                        type="phone"
+                        name="phone"
+                        id="phone"
                         placeholder={user.phoneNumber}
                         />
                     </div>

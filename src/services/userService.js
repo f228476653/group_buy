@@ -34,7 +34,7 @@ function login(signinEmail,signinPassword){
 function authLogin(token){
     const requestOptions = {
         method: 'post',
-        headers: { 'Content-Type': 'application/json', 'Authorization':'Bearer '+token },
+        headers: { 'Content-Type': 'application/json', 'Authorization': token },
         body: JSON.stringify({ 'token':token })
     };
     return fetch(`${config.ServerSettings.apiUrl}/signin`, requestOptions)
@@ -45,18 +45,18 @@ function authLogin(token){
         })
     }
 
-function getUserById(id){
+function getUserById(data){
     const requestOptions = {
         method: 'get',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id:id })
+        headers: { 'Content-Type': 'application/json' ,
+                'Authorization': data.token }
     };
-    return fetch(`${config.ServerSettings.apiUrl}/profile/${id}`, requestOptions)
+    return fetch(`${config.ServerSettings.apiUrl}/profile/${data.userId}`, requestOptions)
         //為什麼不用.then(res =>handleResponse(res))
         .then(handleResponse)
         .then(user => {
             return user;
-        });
+        })
 }
 
 function logout() {
@@ -97,3 +97,4 @@ function handleResponse(response){
         return data;
     });
 }
+
