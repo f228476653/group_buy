@@ -3,9 +3,9 @@ import React from 'react';
 
 const ItemCard = ({ product }) => {
     return (
-      <div className={product.status}>
+      <div className={product.is_active}>
         <article className="br2 ba dark-gray b--black-10 mv4">
-          <img src={product.image} className="db w-100 br2 br--top" alt="12"></img>
+          <img src={product.img_src} className="db w-100 br2 br--top" alt="12"></img>
           <div className="pa2 ph3-ns pb3-ns">
             <div className="dt w-100 mt1">
               <div className="dtc">

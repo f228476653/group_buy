@@ -1,0 +1,5 @@
+export const itemConstants = {
+    ITEM_ALL_REQUEST: 'ITEM_ALL_REQUEST',
+    ITEM_ALL_SUCCESS: 'ITEM_ALL_SUCCESS',
+    ITEM_ALL_FAILURE: 'ITEM_ALL_FAILURE',
+};

@@ -1,9 +1,9 @@
 import React ,{useState, useEffect }from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import Button from 'react-bootstrap/Button'
-import Dropdown from 'react-bootstrap/Dropdown'
-import { profileAction } from 'actions/profile.action'
+import Button from 'react-bootstrap/Button';
+import Dropdown from 'react-bootstrap/Dropdown';
+import { profileAction } from 'actions/profile.action';
 
 
 

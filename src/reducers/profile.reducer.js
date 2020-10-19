@@ -1,7 +1,5 @@
 import { profileConstants } from '../constants/profile.constants'
 
-const initalstate={ toggle: false}
-
 export function profileReducer(initalstate = {},action){
     switch(action.type){
         case profileConstants.TOGGLE:

@@ -1,11 +1,12 @@
 import React, {useEffect}  from 'react';
-import Scroll from 'components/Pages/Scroll';
 import ErrorBoundry from 'components/Pages/ErrorBoundry';
-import ItemCardLists from 'components/Items/ItemCardLists';
+import CarouselSlide from 'components/Operation/CarouselSlide';
 import  Header from 'components/Navigation/Header';
+import  Nav from 'components/Navigation/Nav';
 import { useSelector, useDispatch } from 'react-redux'
 import Modal from 'components/Modal/Modal';
 import Profile from 'components/Profile/Profile';
+import Footer from 'components/Pages/Footer';
 import { userActions } from '../../actions/user.actions';
 
 function HomePage() {
@@ -17,20 +18,10 @@ function HomePage() {
           dispatch(userActions.authenticationLogin(token)); 
       }
   }, [])
-  const isToggle = useSelector(state=>state.profileReducer.toggle)
   return (
     <div className="App">
-        <Header/>
-          <Scroll>
-            <ErrorBoundry>
-              {isToggle && 
-                  <Modal>
-                    <Profile/>
-                  </Modal>
-              }
-              <ItemCardLists/>
-            </ErrorBoundry>
-          </Scroll>
+        <CarouselSlide/>
+        <Footer/>
     </div>
   );
 }
